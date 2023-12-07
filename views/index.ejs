@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Test Server</title>
+    <!-- 'async' 또는 'defer' 속성이 있다면 제거하여 스크립트가 순차적으로 로드되고 실행될 수 있도록 함 -->
+    <script src="https://unpkg.com/@gemwallet/api@3.5.1/umd/gemwallet-api.js"></script>
+    <script>
+    // window 객체에 gemwallet이 로드되었는지 확인하는 로직 추가
+    async function myFunction(address)  {
+        // gemwallet 객체가 있는지 확인
+        
+        await fetch('/api')
+            .then(response_ => {
+                return response_.json(); // json 응답을 파싱
+            })
+            .then(data => 
+            {
+                if (window.GemWalletApi) 
+            {
+            // isInstalled 함수 호출
+                window.GemWalletApi.isInstalled().then( async (response) => {
+                console.log(response.result.isInstalled);
+                let reque = await window.GemWalletApi.getAddress();
+                data.Account =await reque.result.address;
+                console.log(JSON.stringify(data));
+                console.log(typeof(data));
+                })
+                .then(async()=>
+                {
+                    let transaction = {
+                                          TransactionType: "Payment",
+                                          Destination: "rpw7nEyJ3TA7tjmygwpNgjxfuZZ4VKqdEJ",
+                                          Amount: "10000000",
+                                    
+                                        };
+                    console.log(transaction);
+                    console.log(data);
+                    return await window.GemWalletApi.submitTransaction({transaction})
+                })
+                .then((response) => {
+                    console.log(response.result.signature);
+                })
+                .then(() => 
+                {
+                    console.log(address);
+                    fetch('/api', {
+                    method: 'POST',
+                    headers: {
+                     'Content-Type': 'application/json',
+                    },
+                     body: JSON.stringify(
+                        {
+                            address: address,
+                        }),
+                     })
+                .then(response__ => 
+                    {
+                    return response__.json(); // json 응답을 파싱
+                    })
+                .then(data__ => 
+                    {
+                    console.log(data__);
+                    })
+                })
+
+            }
+                
+            });
+        }
+    
+       
+    </script>
+</head>
+
+<body>
+    <h1>Welcome to the Test Server</h1>
+    <p><%= message %></p>
+    <div>
+        <!-- onClick 대신에 이벤트 리스너를 사용하여 로드 상태를 더 잘 제어할 수도 있음 -->
+        <form onsubmit="event.preventDefault(); myFunction(document.getElementById('addressInput').value)">
+            <input type="text" id="addressInput" placeholder="Enter address">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+
+</html>

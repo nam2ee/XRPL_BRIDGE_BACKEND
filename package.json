@@ -1,0 +1,24 @@
+{
+  "name": "evmside",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ethersproject/providers": "^5.7.2",
+    "@ethersproject/wallet": "^5.7.0",
+    "@gemwallet/api": "^3.5.1",
+    "@peersyst/xrp-evm-contracts": "^1.0.1",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.9",
+    "ethers": "^5.6.9",
+    "express": "^4.18.2",
+    "ripple-address-codec": "^4.3.1",
+    "xrpl": "^2.14.0"
+  }
+}
