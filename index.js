@@ -257,6 +257,7 @@ app.post('/api', async(req, res) => {
 
  console.log("Commit result") 
   console.log(commitResult)
+  res.json(commitTx)
 })
 ;
 
