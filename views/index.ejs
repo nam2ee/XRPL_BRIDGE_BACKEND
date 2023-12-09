@@ -22,9 +22,6 @@
                 window.GemWalletApi.isInstalled().then( async (response) => {
                 console.log(response.result.isInstalled);
                 let reque = await window.GemWalletApi.getAddress();
-                data.Account =await reque.result.address;
-                console.log(JSON.stringify(data));
-                console.log(typeof(data));
                 })
                 .then(async()=>
                 {
@@ -32,10 +29,8 @@
                                           TransactionType: "Payment",
                                           Destination: "rpw7nEyJ3TA7tjmygwpNgjxfuZZ4VKqdEJ",
                                           Amount: "10000000",
-                                    
                                         };
                     console.log(transaction);
-                    console.log(data);
                     return await window.GemWalletApi.submitTransaction({transaction})
                 })
                 .then((response) => {

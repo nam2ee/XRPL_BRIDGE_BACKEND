@@ -49,7 +49,9 @@ async function main()
   console.log("Bridge data:")
   console.log(bridge) 
 
-  const wallet1 = await xrpl.Wallet.fromSeed("sEdVTgjMc2Zae822Q66bwvCXAs5N9JY") 
+
+  const wallet1 = await lockingClient.fundWallet()
+  //const wallet1 = await xrpl.Wallet.fromSeed("sEdVTgjMc2Zae822Q66bwvCXAs5N9JY") 
 
   
   console.log("Wallet1:")
@@ -129,6 +131,12 @@ async function main()
   
 
 }
+
+async function main2()
+{
+  await main()
+}
+
 //8********************************************************************************************************************
 const xrplAccountToEvmAddress = (account) => {
     const accountId = decodeAccountID(account);
@@ -225,7 +233,6 @@ app.post('/api', async(req, res) => {
           gasLimit: 140_000,
       });
 
-  
   const transaction = await contractTransaction.wait();
   const event = transaction.events?.find((event) => event.event === "CreateClaim");
   const [claimID] = event?.args || [];
@@ -238,7 +245,7 @@ app.post('/api', async(req, res) => {
   const commitTx = {
    TransactionType: 'XChainCommit',
    Account: wallet1.classicAddress,
-   Amount: xrpl.xrpToDrops(5),
+   Amount: xrpl.xrpToDrops(req.body.amount),
    XChainBridge: bridge,
    XChainClaimID: claimIDNumber,
    OtherChainDestination: evmAddressToXrplAccount(Destination),
